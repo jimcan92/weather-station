@@ -64,13 +64,11 @@ Connect to this access point using a phone or computer, and follow the on-screen
 
 ### 4. 3D-Printed Enclosures
 
-The project includes 3D-printed enclosures for the solar power system and sensor housing. The STL files are available in the repository:
+The project includes 3D-printed enclosures for the solar power system and sensor housing. STL files that are available:
 
-- [Solar Power Enclosure](3d%20models/Solar%20Enclosure.stl)
-- [Sensor Housing](3d%20models/Sensor%20Housing.stl)
-- [Connector for Enclosures](3d%20models/Connector.stl)
-
-Preview and download the STL files from [this repository link].
+- [Solar Power Enclosure](3d_models/solar_enclosure.stl)
+- [Sensor Housing](3d_models/sensor_housing.stl)
+- [Connector for Enclosures](3d_models/connector.stl)
 
 ## Usage
 
