@@ -21,7 +21,7 @@
 
 // BMP280 sensor settings
 #define BMP_ADDR 0x76     // BMP280 I2C address
-#define PRESSURE_UNIT HPA // Pressure unit to display
+#define PRESSURE_UNIT ATM // Pressure unit to display
 
 // Google Sheets settings
 #define WEBHOOK_URL "https://script.google.com/macros/s/AKfycbyO8JsoQ0hcT7YTWrPdCoYI7YPfHXzIGawrk7NTIdx3ujDFkxTYKeBPPkDfKWZ1HlgSrA/exec"
