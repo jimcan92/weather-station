@@ -107,5 +107,5 @@ void loop()
   //     bmp.getPressure(PRESSURE_UNIT),
   //     bmp.getPUnit(PRESSURE_UNIT));
 
-  db.sendEvery({21.21, 76.21});
+  db.sendEvery({20, 80});
 }

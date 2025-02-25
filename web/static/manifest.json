@@ -1,0 +1,26 @@
+{
+	"name": "ESP32 Weather Station",
+	"short_name": "ESPWeather",
+	"description": "A weather station built with an ESP32 and Tipping Bucker Rain Gauge, DHT22, and BME280 sensor",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#ffffff",
+	"icons": [
+		{
+			"src": "/icon-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/icon-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"src": "/icon-180x180.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		}
+	]
+}

@@ -1,7 +1,7 @@
 #include "timestamp.h"
 
 const char *ntpServer = "time.google.com";
-const long gmtOffset_sec = 28800; // GMT+8
+const long gmtOffset_sec = 0;
 const int daylightOffset_sec = 0;
 
 void Timestamp::init()
