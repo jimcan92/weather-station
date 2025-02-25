@@ -3,10 +3,12 @@
 #include <WiFi.h>
 #include <DHT.h>
 
-#include "sensors/bmp.h"
-#include "data/gsheet.h"
-#include "sensors/rain.h"
+// #include "sensors/bmp.h"
+// #include "data/gsheet.h"
+// #include "sensors/rain.h"
 #include "display/lcd.h"
+#include "firebase/firebase.h"
+#include "timestamp/timestamp.h"
 
 #define USE_SERIAL 1 // Set to 1 to enable serial output 0 to disable
 
@@ -20,29 +22,31 @@
 #define LCD_ADDR 0x27 // I2C address of the LCD
 
 // BMP280 sensor settings
-#define BMP_ADDR 0x76     // BMP280 I2C address
-#define PRESSURE_UNIT HPA // Pressure unit to display
+// #define BMP_ADDR 0x76     // BMP280 I2C address
+// #define PRESSURE_UNIT ATM // Pressure unit to display
 
 // Google Sheets settings
-#define WEBHOOK_URL "https://script.google.com/macros/s/AKfycbyO8JsoQ0hcT7YTWrPdCoYI7YPfHXzIGawrk7NTIdx3ujDFkxTYKeBPPkDfKWZ1HlgSrA/exec"
-#define SEND_INTERVAL_MIN 1 // send data to google sheets every X min
+// #define WEBHOOK_URL "https://script.google.com/macros/s/AKfycbyO8JsoQ0hcT7YTWrPdCoYI7YPfHXzIGawrk7NTIdx3ujDFkxTYKeBPPkDfKWZ1HlgSrA/exec"
+// #define SEND_INTERVAL_MIN 1 // send data to google sheets every X min
 
 // Rain gauge settings
-#define RAIN_PIN 23       // Rain gauge input pin
-#define MM_PER_TIP 0.2794 // mm of rain per tip
+// #define RAIN_PIN 23       // Rain gauge input pin
+// #define MM_PER_TIP 0.2794 // mm of rain per tip
 
 // DHT sensor settings
-#define DHT_PIN 4      // DHT sensor input pin
-#define DHT_TYPE DHT22 // DHT sensor type
+// #define DHT_PIN 4      // DHT sensor input pin
+// #define DHT_TYPE DHT22 // DHT sensor type
 
 // Temperature offset
-#define TEMP_OFFSET -3.0F // Calibration offset for temperature in Celsius
+// #define TEMP_OFFSET -3.0F // Calibration offset for temperature in Celsius
 
-RainGauge rainGauge(RAIN_PIN, MM_PER_TIP);
+// RainGauge rainGauge(RAIN_PIN, MM_PER_TIP);
 LCD lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
-BMP280 bmp(BMP_ADDR);
-DHT dht(DHT_PIN, DHT_TYPE);
-GSheet gsheet(WEBHOOK_URL, SEND_INTERVAL_MIN);
+FirebaseFirestore db;
+Timestamp timestamp;
+// BMP280 bmp(BMP_ADDR);
+// DHT dht(DHT_PIN, DHT_TYPE);
+// GSheet gsheet(WEBHOOK_URL, SEND_INTERVAL_MIN);
 
 void setupWifi()
 {
@@ -72,33 +76,36 @@ void setup()
 
   setupWifi();
 
-  rainGauge.begin();
-  dht.begin();
+  //   rainGauge.begin();
+  //   dht.begin();
 
-  if (!bmp.begin())
-  {
-#if USE_SERIAL
-    Serial.println("BMP280 not detected!");
-#endif
+  //   if (!bmp.begin())
+  //   {
+  // #if USE_SERIAL
+  //     Serial.println("BMP280 not detected!");
+  // #endif
 
-    lcd.displayError("BMP280 not detected!");
-    delay(2000);
-  }
+  //     lcd.displayError("BMP280 not detected!");
+  //     delay(2000);
+  //   }
+  timestamp.init();
 }
 
 void loop()
 {
-  rainGauge.handleTip();
-  lcd.display(
-      rainGauge.getRainfall(),
-      dht.readTemperature() + TEMP_OFFSET,
-      dht.readHumidity(),
-      bmp.getPressure(PRESSURE_UNIT),
-      bmp.getPUnit(PRESSURE_UNIT));
-  gsheet.send(
-      rainGauge.getRainfall(),
-      dht.readTemperature() + TEMP_OFFSET,
-      dht.readHumidity(),
-      bmp.getPressure(PRESSURE_UNIT),
-      bmp.getPUnit(PRESSURE_UNIT));
+  // rainGauge.handleTip();
+  // lcd.display(
+  //     rainGauge.getRainfall(),
+  //     dht.readTemperature() + TEMP_OFFSET,
+  //     dht.readHumidity(),
+  //     bmp.getPressure(PRESSURE_UNIT),
+  //     bmp.getPUnit(PRESSURE_UNIT));
+  // gsheet.send(
+  //     rainGauge.getRainfall(),
+  //     dht.readTemperature() + TEMP_OFFSET,
+  //     dht.readHumidity(),
+  //     bmp.getPressure(PRESSURE_UNIT),
+  //     bmp.getPUnit(PRESSURE_UNIT));
+
+  db.sendEvery({21.21, 76.21});
 }
