@@ -53,7 +53,7 @@ String FirebaseFirestore::getIdToken(String email, String pass)
     }
 }
 
-void FirebaseFirestore::send(FirestoreData data)
+void FirebaseFirestore::_send()
 {
     if (WiFi.status() != WL_CONNECTED)
     {
@@ -92,9 +92,12 @@ void FirebaseFirestore::send(FirestoreData data)
 
     // Create JSON data
     JsonDocument jsonDoc;
-    jsonDoc["fields"]["temperature"]["doubleValue"] = data.temp;
-    jsonDoc["fields"]["humidity"]["doubleValue"] = data.humid;
-    jsonDoc["fields"]["timestamp"]["timestampValue"] = ts; // Replace with actual time
+    jsonDoc["fields"]["temperature"]["doubleValue"] = bmp.getTemperature();
+    jsonDoc["fields"]["humidity"]["doubleValue"] = dht.readHumidity();
+    jsonDoc["fields"]["timestamp"]["timestampValue"] = ts;
+    jsonDoc["fields"]["pressure"]["doubleValue"] = bmp.getPressure();
+    jsonDoc["fields"]["rain"]["doubleValue"] = rainGauge.getRainfall();
+    jsonDoc["fields"]["pressureUnit"]["stringValue"] = bmp.getPUnit();
 
     String jsonData;
     serializeJson(jsonDoc, jsonData);
@@ -111,14 +114,14 @@ void FirebaseFirestore::send(FirestoreData data)
     http.end();
 }
 
-void FirebaseFirestore::sendEvery(FirestoreData data)
+void FirebaseFirestore::send()
 {
     static unsigned long lastSendTime = 0;
     unsigned long currentTime = millis();
 
-    if (currentTime - lastSendTime > SEND_INTERVAL * 60000) //
+    if (currentTime - lastSendTime > SEND_INTERVAL * 1000 * 60) //
     {
         lastSendTime = currentTime;
-        send(data);
+        _send();
     }
 }

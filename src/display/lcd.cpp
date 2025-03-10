@@ -22,7 +22,7 @@ void LCD::displayWifiConnected(String to)
 {
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Conected to: ");
+    lcd.print("Connected to: ");
     lcd.setCursor(0, 1);
     lcd.print(to);
     delay(2000);
@@ -51,7 +51,7 @@ void LCD::dispayWelcome()
     delay(2000);
 }
 
-void LCD::display(float rain, float temp, float humidity, float pressure, String pUnit)
+void LCD::display()
 {
     static unsigned long lastUpdate = 0;
     const unsigned long updateInterval = 500; // Update every 500ms
@@ -77,12 +77,12 @@ void LCD::display(float rain, float temp, float humidity, float pressure, String
             // Show Temperature and Humidity
             lcd.setCursor(0, 0);
             lcd.print("Temp: ");
-            lcd.print(temp);
+            lcd.print(bmp.getTemperature());
             lcd.print(" C          ");
 
             lcd.setCursor(0, 1);
             lcd.print("Humid: ");
-            lcd.print(humidity);
+            lcd.print(dht.readHumidity());
             lcd.print(" %          ");
         }
         else
@@ -90,14 +90,14 @@ void LCD::display(float rain, float temp, float humidity, float pressure, String
             // Show Pressure and Rain
             lcd.setCursor(0, 0);
             lcd.print("P: ");
-            lcd.print(pressure);
+            lcd.print(bmp.getPressure());
             lcd.print(" ");
-            lcd.print(pUnit);
+            lcd.print(bmp.getPUnit());
             lcd.print("          ");
 
             lcd.setCursor(0, 1);
             lcd.print("Rain: ");
-            lcd.print(rain);
+            lcd.print(rainGauge.getRainfall());
             lcd.print(" mm          ");
         }
     }

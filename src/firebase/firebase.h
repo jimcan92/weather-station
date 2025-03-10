@@ -9,8 +9,11 @@
 #include <FirebaseJson.h>
 #include <ArduinoJson.h>
 #include <WiFiClientSecure.h>
+#include <DHT.h>
 
 #include "timestamp/timestamp.h"
+#include "sensors/rain.h"
+#include "sensors/bmp.h"
 
 #define API_KEY "AIzaSyDjLE4xfLweve2O3Pc5ILByDaMkWEX6AIA"
 #define PROJECT_ID "esp-min-weather-station"
@@ -21,21 +24,27 @@
 
 #define SEND_INTERVAL 1 // X minute
 
-extern Timestamp timestamp;
-
 struct FirestoreData
 {
     float temp;
     float humid;
+    float pressure;
+    float rain;
+    String pressureUnit;
 };
+
+extern RainGauge rainGauge;
+extern Timestamp timestamp;
+extern BMP280 bmp;
+extern DHT dht;
 
 class FirebaseFirestore
 {
 public:
-    void send(FirestoreData data);
-    void sendEvery(FirestoreData data);
+    void send();
 
 private:
+    void _send();
     String getIdToken(String email, String pass);
 };
 

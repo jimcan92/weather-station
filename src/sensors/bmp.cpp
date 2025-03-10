@@ -1,48 +1,47 @@
 #include "bmp.h"
 #include <Adafruit_BMP280.h>
 
-Adafruit_BMP280 bmp280;
-
-BMP280::BMP280(uint8_t address)
-{
-    _address = address;
-}
-
 bool BMP280::begin()
 {
-    return bmp280.begin(_address);
+    return _bmp280.begin(BMP_ADDR);
 }
 
 // Get the pressure based on the display unit (hPa, kPa, mmHg, atm, Torr, bar, Pa)
-float BMP280::getPressure(float displayUnit)
+float BMP280::getPressure()
 {
-    return bmp280.readPressure() / displayUnit;
+    return _bmp280.readPressure() / PRESSURE_UNIT;
+}
+
+// Get the pressure based on the display unit (hPa, kPa, mmHg, atm, Torr, bar, Pa)
+float BMP280::getTemperature()
+{
+    return _bmp280.readTemperature();
 }
 
 // Get the pressure unit to display
-String BMP280::getPUnit(float displayUnit)
+String BMP280::getPUnit()
 {
-    if (displayUnit == HPA)
+    if (PRESSURE_UNIT == HPA)
     {
         return "hPa";
     }
-    else if (displayUnit == KPA)
+    else if (PRESSURE_UNIT == KPA)
     {
         return "kPa";
     }
-    else if (displayUnit == MMHG)
+    else if (PRESSURE_UNIT == MMHG)
     {
         return "mmHg";
     }
-    else if (displayUnit == ATM)
+    else if (PRESSURE_UNIT == ATM)
     {
         return "atm";
     }
-    else if (displayUnit == TORR)
+    else if (PRESSURE_UNIT == TORR)
     {
         return "Torr";
     }
-    else if (displayUnit == BAR)
+    else if (PRESSURE_UNIT == BAR)
     {
         return "bar";
     }
