@@ -6,18 +6,18 @@ GSheet::GSheet(String url, int sendIntervalMin)
     _sendIntervalMin = sendIntervalMin;
 }
 
-void GSheet::_send(float rain, float temp, float humidity, float pressure, String pUnit)
+void GSheet::_send()
 {
     if (WiFi.status() == WL_CONNECTED)
     {
         HTTPClient http;
 
         String urlWithParams = _url;
-        urlWithParams += "?temp=" + String(temp);
-        urlWithParams += "&humid=" + String(humidity);
-        urlWithParams += "&rain=" + String(rain);
-        urlWithParams += "&p=" + String(pressure);
-        urlWithParams += "&pUnit=" + pUnit;
+        urlWithParams += "?temp=" + String(bmp.getTemperature());
+        urlWithParams += "&humid=" + String(dht.readHumidity());
+        urlWithParams += "&rain=" + String(rainGauge.getRainfall());
+        urlWithParams += "&p=" + String(bmp.getPressure());
+        urlWithParams += "&pUnit=" + bmp.getPUnit();
 
         http.begin(urlWithParams);
 
@@ -41,7 +41,7 @@ void GSheet::_send(float rain, float temp, float humidity, float pressure, Strin
     }
 }
 
-void GSheet::send(float rain, float temp, float humidity, float pressure, String pUnit)
+void GSheet::send()
 {
     static unsigned long lastSendTime = 0;
     unsigned long currentTime = millis();
@@ -49,6 +49,6 @@ void GSheet::send(float rain, float temp, float humidity, float pressure, String
     if (currentTime - lastSendTime >= _sendIntervalMin * 60 * 1000)
     {
         lastSendTime = currentTime;
-        _send(rain, temp, humidity, pressure, pUnit);
+        _send();
     }
 }

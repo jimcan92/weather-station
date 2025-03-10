@@ -3,6 +3,14 @@
 
 #include <Arduino.h>
 #include <LiquidCrystal_I2C.h>
+#include <DHT.h>
+
+#include "sensors/rain.h"
+#include "sensors/bmp.h"
+
+extern RainGauge rainGauge;
+extern BMP280 bmp;
+extern DHT dht;
 
 class LCD
 {
@@ -13,7 +21,7 @@ public:
     void dispayWelcome();
     void displayWifiNotConnected(String ssid, String pass);
     void displayWifiConnected(String to);
-    void display(float rain, float temp, float humidity, float pressure, String pUnit);
+    void display();
 
 private:
     LiquidCrystal_I2C lcd;

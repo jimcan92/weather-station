@@ -4,6 +4,9 @@
 #include <Arduino.h>
 #include <Adafruit_BMP280.h>
 
+#define BMP_ADDR 0x76     // BMP280 I2C address
+#define PRESSURE_UNIT ATM // Pressure unit to display
+
 #define HPA 100.0F    // 1 hPa = 100 Pa
 #define KPA 1000.0F   // 1 kPa = 1000 Pa
 #define MMHG 133.322F // 1 mmHg = 133.322 Pa
@@ -14,13 +17,13 @@
 class BMP280
 {
 public:
-    BMP280(uint8_t address);
     bool begin();
-    float getPressure(float displayUnit);
-    String getPUnit(float displayUnit);
+    float getPressure();
+    String getPUnit();
+    float getTemperature();
 
 private:
-    int _address;
+    Adafruit_BMP280 _bmp280;
 };
 
 #endif
