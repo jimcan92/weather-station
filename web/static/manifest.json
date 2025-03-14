@@ -4,8 +4,8 @@
 	"description": "A weather station built with an ESP32 and Tipping Bucker Rain Gauge, DHT22, and BME280 sensor",
 	"start_url": "/",
 	"display": "standalone",
-	"background_color": "#ffffff",
-	"theme_color": "#ffffff",
+	"background_color": "#1d232a",
+	"theme_color": "#3b82f6",
 	"icons": [
 		{
 			"src": "/icon-192x192.png",

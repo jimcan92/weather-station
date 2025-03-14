@@ -7,39 +7,39 @@
 </script>
 
 {#snippet latestReadings()}
-	<div class="flex h-full items-center justify-evenly gap-4">
+	<div class="grid grid-cols-2 gap-4">
 		<div class="flex flex-col items-center">
-			{#if weatherData.latestData}
-				<p class="text-2xl font-bold text-blue-500">{weatherData.latestData.temp} °C</p>
+			{#if weatherData.latestData != undefined}
+				<p class="text-2xl font-bold text-red-500">{weatherData.latestData.temp} °C</p>
 			{:else}
-				<p class="text-2xl font-bold text-blue-500">N/A</p>
+				<p class="text-2xl font-bold text-red-500">N/A</p>
 			{/if}
 			<p class="text-base-content/50 text-sm italic">Temperature</p>
 		</div>
 		<div class="flex flex-col items-center">
-			{#if weatherData.latestData}
-				<p class="text-2xl font-bold text-red-500">{weatherData.latestData.humid} %</p>
+			{#if weatherData.latestData != undefined}
+				<p class="text-2xl font-bold text-cyan-500">{weatherData.latestData.humid} %</p>
 			{:else}
-				<p class="text-2xl font-bold text-blue-500">N/A</p>
+				<p class="text-2xl font-bold text-cyan-500">N/A</p>
 			{/if}
 			<p class="text-base-content/50 text-sm italic">Humdity</p>
 		</div>
-	</div>
-	<div class="flex h-full items-center justify-evenly gap-4">
+		<!-- </div>
+	<div class="flex h-full items-center justify-evenly gap-4"> -->
 		<div class="flex flex-col items-center">
-			{#if weatherData.latestData && weatherData.latestData.pressure}
-				<p class="text-2xl font-bold text-blue-500">
+			{#if weatherData.latestData != undefined && weatherData.latestData.pressure != undefined}
+				<p class="text-2xl font-bold text-purple-500">
 					{weatherData.latestData.pressure}
 					{weatherData.latestData.pressureUnit}
 				</p>
 			{:else}
-				<p class="text-2xl font-bold text-blue-500">N/A</p>
+				<p class="text-2xl font-bold text-purple-500">N/A</p>
 			{/if}
 			<p class="text-base-content/50 text-sm italic">Pressure</p>
 		</div>
 		<div class="flex flex-col items-center">
-			{#if weatherData.latestData && weatherData.latestData.rain}
-				<p class="text-2xl font-bold text-red-500">{weatherData.latestData.rain} mm</p>
+			{#if weatherData.latestData != undefined && weatherData.latestData.rain != undefined}
+				<p class="text-2xl font-bold text-blue-500">{weatherData.latestData.rain} mm</p>
 			{:else}
 				<p class="text-2xl font-bold text-blue-500">N/A</p>
 			{/if}
@@ -70,7 +70,7 @@
 	color: string;
 })}
 	<div class="flex flex-col items-center">
-		{#if value}
+		{#if value != undefined}
 			<p class="text-2xl font-bold {color}">{value} {unit}</p>
 			<p class="text-base-content/50 text-xs italic">
 				{dayjs.unix(timestamp.seconds).format('ddd MMM DD, YYYY')}
@@ -85,7 +85,7 @@
 	</div>
 {/snippet}
 {#snippet extremeDataReadings()}
-	<div class="flex h-full items-center justify-evenly gap-4">
+	<div class="grid grid-cols-2 gap-4">
 		{#if weatherData.extremeRecordedData?.lowestTempData}
 			{@render extremeReading({
 				label: 'Lowest Temperature',
@@ -104,8 +104,8 @@
 				color: 'text-red-500'
 			})}
 		{/if}
-	</div>
-	<div class="flex h-full items-center justify-evenly gap-4">
+		<!-- </div>
+	<div class="flex h-full items-center justify-evenly gap-4"> -->
 		{#if weatherData.extremeRecordedData?.lowestHumidData}
 			{@render extremeReading({
 				label: 'Lowest Humidity',
@@ -124,8 +124,8 @@
 				color: 'text-teal-100'
 			})}
 		{/if}
-	</div>
-	<div class="flex h-full items-center justify-evenly gap-4">
+		<!-- </div>
+	<div class="flex h-full items-center justify-evenly gap-4"> -->
 		{#if weatherData.extremeRecordedData?.lowestPressureData}
 			{@render extremeReading({
 				label: 'Lowest Pressure',
@@ -135,7 +135,7 @@
 				color: 'text-purple-300'
 			})}
 		{/if}
-		{#if weatherData.extremeRecordedData?.highestPressureData}
+		{#if weatherData.extremeRecordedData?.highestPressureData != undefined}
 			{@render extremeReading({
 				label: 'Highest Pressure',
 				timestamp: weatherData.extremeRecordedData.highestPressureData.timestamp,
@@ -144,8 +144,9 @@
 				color: 'text-purple-600'
 			})}
 		{/if}
-	</div>
-	<div class="flex h-full items-center justify-evenly gap-4">
+		<!-- </div>
+		 
+	<div class="flex h-full items-center justify-evenly gap-4"> -->
 		{#if weatherData.extremeRecordedData?.lowestRainData}
 			{@render extremeReading({
 				label: 'Lowest Rain',
@@ -155,7 +156,7 @@
 				color: 'text-blue-300'
 			})}
 		{/if}
-		{#if weatherData.extremeRecordedData?.highestRainData}
+		{#if weatherData.extremeRecordedData?.highestRainData != undefined}
 			{@render extremeReading({
 				label: 'Highest Rain',
 				timestamp: weatherData.extremeRecordedData.highestRainData.timestamp,
@@ -166,86 +167,62 @@
 		{/if}
 	</div>
 {/snippet}
-<div class="grid w-full gap-6 p-6 md:grid-cols-2 md:items-start lg:grid-cols-3">
-	<DashboardWidget title="Latest Readings" content={latestReadings} />
-	<DashboardWidget title="Extreme Data Readings" content={extremeDataReadings} />
-	<div class="flex gap-4">
-		<button class="btn btn-ghost" onclick={weatherData.prevDay}>-</button>
-		<input type="date" class="input" name="day" id="day" bind:value={weatherData.day} />
-		<button class="btn btn-ghost" onclick={weatherData.nextDay}>+</button>
+{#snippet dailyReadings()}
+	<div class="flex flex-col gap-4">
+		<div class="flex items-center justify-center">
+			<p>{dayjs().format('dddd - MMMM DD, YYYY')}</p>
+		</div>
+
+		<ChartWidget
+			data={{
+				labels: weatherData.dataToday.map((td) =>
+					dayjs.unix(td.timestamp.seconds).format('hh:mm:ss A')
+				),
+				datasets: [
+					{
+						label: 'Temp',
+						data: weatherData.dataToday.map((td) => td.temp),
+						borderColor: 'red',
+						backgroundColor: 'rgba(255, 0, 0, 0.2)',
+						borderWidth: 2
+						// fill: true
+					},
+					{
+						label: 'Humdity',
+						data: weatherData.dataToday.map((td) => td.humid),
+						borderColor: 'cyan',
+						backgroundColor: 'rgba(0, 255, 255, 0.2)',
+						borderWidth: 2
+						// fill: true
+					},
+					{
+						label: 'Pressure',
+						data: weatherData.dataToday.map((td) => td.pressure),
+						borderColor: 'purple',
+						backgroundColor: 'rgba(128, 0, 128, 0.2)',
+						borderWidth: 2
+						// fill: true
+					},
+					{
+						label: 'Rain',
+						data: weatherData.dataByDay.map((td) => td.rain),
+						borderColor: 'blue',
+						backgroundColor: 'rgba(0, 0, 255, 0.2)',
+						borderWidth: 2
+						// fill: true
+					}
+				]
+			}}
+			chartType="line"
+		/>
 	</div>
-	<ChartWidget
-		data={{
-			labels: weatherData.tempData.map((td) =>
-				dayjs.unix(td.timestamp.seconds).format('YYYY-MM-DD')
-			),
-			datasets: [
-				{
-					label: 'Temperature',
-					data: weatherData.tempData.map((td) => td.value),
-					borderColor: 'blue',
-					backgroundColor: 'rgba(0, 0, 255, 0.2)',
-					borderWidth: 2
-					// fill: true
-				},
-				{
-					label: 'Humdity',
-					data: weatherData.humidData.map((td) => td.value),
-					borderColor: 'teal',
-					backgroundColor: 'rgba(0, 255, 0, 0.2)',
-					borderWidth: 2
-					// fill: true
-				}
-			]
-		}}
-		chartType="line"
-	/>
-	<ChartWidget
-		data={{
-			labels: ['10AM', '11AM', '12PM', '1PM', 'tr'],
-			datasets: [
-				{
-					label: 'Temperature',
-					data: [32, 23, 24, 25],
-					borderColor: 'blue',
-					backgroundColor: 'rgba(0, 0, 255, 0.2)',
-					borderWidth: 2,
-					fill: true
-				},
-				{
-					label: 'Temperature',
-					data: [62, 63, 54, 65],
-					borderColor: 'teal',
-					backgroundColor: 'rgba(0, 255, 0, 0.2)',
-					borderWidth: 2,
-					fill: true
-				}
-			]
-		}}
-		chartType="bar"
-	/>
-	<ChartWidget
-		data={{
-			labels: ['10AM', '11AM', '12PM', '1PM', 'tr'],
-			datasets: [
-				{
-					label: 'Temperature',
-					data: [22, 41, 24, 25],
-					borderColor: 'blue',
-					backgroundColor: 'rgba(0, 0, 255, 0.2)',
-					borderWidth: 2,
-					fill: true
-				},
-				{
-					label: 'Temperature',
-					data: [62, 63, 54, 65],
-					borderColor: 'teal',
-					backgroundColor: 'rgba(0, 255, 0, 0.2)',
-					borderWidth: 2,
-					fill: true
-				}
-			]
-		}}
-		chartType="pie"
-	/>
+{/snippet}
+<div class="flex h-full w-full">
+	<div
+		class="grid h-full w-full gap-6 overflow-y-auto p-6 md:grid-cols-2 md:items-start lg:grid-cols-3"
+	>
+		<DashboardWidget link="/data" title="Latest Readings" content={latestReadings} />
+		<DashboardWidget link="/extreme" title="Extreme Data Readings" content={extremeDataReadings} />
+		<DashboardWidget link="/data" title="Today's Readings" content={dailyReadings} />
+	</div>
 </div>

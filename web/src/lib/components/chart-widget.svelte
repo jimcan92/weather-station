@@ -20,10 +20,10 @@
 				data,
 				options: {
 					responsive: true,
-					maintainAspectRatio: false
-					// scales: {
-					// 	y: { beginAtZero: true }
-					// }
+					maintainAspectRatio: false,
+					scales: {
+						y: { beginAtZero: true }
+					}
 				}
 			});
 		}
@@ -37,6 +37,6 @@
 	});
 </script>
 
-<div class="flex max-h-64">
+<div class="flex max-h-64 min-h-48 w-full">
 	<canvas bind:this={chartCanvas}></canvas>
 </div>

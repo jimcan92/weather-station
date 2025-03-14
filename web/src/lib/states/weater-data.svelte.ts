@@ -1,4 +1,4 @@
-import type { HumidData, TempData, WeatherData } from '$lib/types/weather-data';
+import type { WeatherData } from '$lib/types/weather-data';
 import dayjs from 'dayjs';
 import {
 	collection,
@@ -12,58 +12,42 @@ import {
 
 let _day = $state(dayjs().format('YYYY-MM-DD'));
 let _weatherData = $state<WeatherData[]>([]);
-const _tempData = $derived.by(() => {
-	const dataOfDay = _weatherData.filter((wd) => {
-		console.log(dayjs.unix(wd.timestamp.seconds).isSame(_day, 'day'));
+const _dataByDay = $derived(
+	[..._weatherData].filter((wd) => {
 		return dayjs.unix(wd.timestamp.seconds).isSame(_day, 'day');
-	});
-	return dataOfDay.map(({ timestamp, temp }) => ({ timestamp, value: temp }) as TempData);
-});
-const _humidData = $derived(
-	_weatherData.map(({ timestamp, humid }) => ({ timestamp, value: humid }) as HumidData)
+	})
 );
-const _lowestTempData = $derived.by(() => {
-	if (_weatherData.length === 0) return null; // Handle empty data case
-
-	const minTemp = Math.min(..._weatherData.map((wd) => wd.temp));
-	const wd = _weatherData.find((a) => a.temp === minTemp);
-
-	return wd ? ({ timestamp: wd.timestamp, value: wd.temp } as TempData) : null;
-});
-
-const _highestTempData = $derived.by(() => {
-	if (_weatherData.length === 0) return null;
-
-	const maxTemp = Math.max(..._weatherData.map((wd) => wd.temp));
-	const wd = _weatherData.find((a) => a.temp === maxTemp);
-
-	return wd ? ({ timestamp: wd.timestamp, value: wd.temp } as TempData) : null;
-});
+const _dataToday = $derived(
+	[..._weatherData].filter((wd) => {
+		return dayjs.unix(wd.timestamp.seconds).isSame(dayjs(), 'day');
+	})
+);
 const _extremeRecordedData = $derived.by(() => {
 	if (_weatherData.length === 0) return null;
 
-	let minTempData,
-		maxTempData,
-		minHumidData,
-		maxHumidData,
-		minPressureData,
-		maxPressureData,
-		minRainData,
-		maxRainData;
+	let minTempData: WeatherData | undefined;
+	let maxTempData: WeatherData | undefined;
+	let minHumidData: WeatherData | undefined;
+	let maxHumidData: WeatherData | undefined;
+	let minPressureData: WeatherData | undefined;
+	let maxPressureData: WeatherData | undefined;
+	let minRainData: WeatherData | undefined;
+	let maxRainData: WeatherData | undefined;
 
-	// Single loop to find min/max values
-	for (const wd of _weatherData) {
-		if (!minTempData || wd.temp < minTempData.temp) minTempData = wd;
-		if (!maxTempData || wd.temp > maxTempData.temp) maxTempData = wd;
+	for (const wd of [..._weatherData]) {
+		if (minTempData?.temp === undefined || wd.temp < minTempData.temp) minTempData = wd;
+		if (maxTempData?.temp === undefined || wd.temp > maxTempData.temp) maxTempData = wd;
+		if (minHumidData?.humid === undefined || wd.humid < minHumidData.humid) minHumidData = wd;
+		if (maxHumidData?.humid === undefined || wd.humid > maxHumidData.humid) maxHumidData = wd;
+		if (minPressureData?.pressure === undefined || wd.pressure < minPressureData.pressure)
+			minPressureData = wd;
+		if (maxPressureData?.pressure === undefined || wd.pressure > maxPressureData.pressure)
+			maxPressureData = wd;
+		if (minRainData?.rain === undefined || wd.rain < minRainData.rain) minRainData = wd;
+		if (maxRainData?.rain === undefined || wd.rain > maxRainData.rain) maxRainData = wd;
+		console.log($state.snapshot(maxRainData));
 
-		if (!minHumidData || wd.humid < minHumidData.humid) minHumidData = wd;
-		if (!maxHumidData || wd.humid > maxHumidData.humid) maxHumidData = wd;
-
-		if (!minPressureData || wd.pressure < minPressureData.pressure) minPressureData = wd;
-		if (!maxPressureData || wd.pressure > maxPressureData.pressure) maxPressureData = wd;
-
-		if (!minRainData || wd.rain < minRainData.rain) minRainData = wd;
-		if (!maxRainData || wd.rain > maxRainData.rain) maxRainData = wd;
+		console.log($state.snapshot(wd));
 	}
 
 	return {
@@ -78,7 +62,7 @@ const _extremeRecordedData = $derived.by(() => {
 	};
 });
 
-const _latestData = $derived(_weatherData.length > 0 ? _weatherData[0] : null);
+const _latestData = $derived(_weatherData.at(-1) ?? null);
 
 export const weatherData = {
 	get day() {
@@ -87,17 +71,11 @@ export const weatherData = {
 	get all() {
 		return _weatherData;
 	},
-	get lowestTempData() {
-		return _lowestTempData;
+	get dataByDay() {
+		return _dataByDay;
 	},
-	get highestTempData() {
-		return _highestTempData;
-	},
-	get tempData() {
-		return _tempData;
-	},
-	get humidData() {
-		return _humidData;
+	get dataToday() {
+		return _dataToday;
 	},
 	get latestData() {
 		return _latestData;
@@ -111,9 +89,8 @@ export const weatherData = {
 	init() {
 		const weatherDataQuery = query(
 			collection(getFirestore(), 'weather-data'),
-			orderBy('timestamp', 'desc')
-		); // Change to 'asc' if needed
-
+			orderBy('timestamp', 'asc')
+		);
 		onSnapshot(weatherDataQuery, (snapshot) => {
 			_weatherData = snapshot.docs.map((doc) => {
 				const data = doc.data();
