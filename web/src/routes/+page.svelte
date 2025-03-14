@@ -10,7 +10,7 @@
 	<div class="grid grid-cols-2 gap-4">
 		<div class="flex flex-col items-center">
 			{#if weatherData.latestData != undefined}
-				<p class="text-2xl font-bold text-red-500">{weatherData.latestData.temp} °C</p>
+				<p class="text-center text-2xl font-bold text-red-500">{weatherData.latestData.temp} °C</p>
 			{:else}
 				<p class="text-2xl font-bold text-red-500">N/A</p>
 			{/if}
@@ -18,7 +18,7 @@
 		</div>
 		<div class="flex flex-col items-center">
 			{#if weatherData.latestData != undefined}
-				<p class="text-2xl font-bold text-cyan-500">{weatherData.latestData.humid} %</p>
+				<p class="text-center text-2xl font-bold text-cyan-500">{weatherData.latestData.humid} %</p>
 			{:else}
 				<p class="text-2xl font-bold text-cyan-500">N/A</p>
 			{/if}
@@ -28,7 +28,7 @@
 	<div class="flex h-full items-center justify-evenly gap-4"> -->
 		<div class="flex flex-col items-center">
 			{#if weatherData.latestData != undefined && weatherData.latestData.pressure != undefined}
-				<p class="text-2xl font-bold text-purple-500">
+				<p class="text-center text-2xl font-bold text-purple-500">
 					{weatherData.latestData.pressure}
 					{weatherData.latestData.pressureUnit}
 				</p>
@@ -39,7 +39,7 @@
 		</div>
 		<div class="flex flex-col items-center">
 			{#if weatherData.latestData != undefined && weatherData.latestData.rain != undefined}
-				<p class="text-2xl font-bold text-blue-500">{weatherData.latestData.rain} mm</p>
+				<p class="text-center text-2xl font-bold text-blue-500">{weatherData.latestData.rain} mm</p>
 			{:else}
 				<p class="text-2xl font-bold text-blue-500">N/A</p>
 			{/if}
@@ -71,7 +71,7 @@
 })}
 	<div class="flex flex-col items-center">
 		{#if value != undefined}
-			<p class="text-2xl font-bold {color}">{value} {unit}</p>
+			<p class="text-center text-2xl font-bold {color}">{value} {unit}</p>
 			<p class="text-base-content/50 text-xs italic">
 				{dayjs.unix(timestamp.seconds).format('ddd MMM DD, YYYY')}
 			</p>
