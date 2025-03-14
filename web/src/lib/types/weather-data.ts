@@ -19,3 +19,14 @@ export interface HumidData {
 	timestamp: Timestamp;
 	value: number;
 }
+
+export interface PressureData {
+	timestamp: Timestamp;
+	value: number;
+	unit: string;
+}
+
+export interface RainData {
+	timestamp: Timestamp;
+	value: number;
+}

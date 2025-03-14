@@ -11,3 +11,10 @@ export function formatFirestoreTimestamp(
 ) {
 	return dayjs.unix(timestamp.seconds).tz(tz).format('MMM DD, YYYY hh:mm:ss A');
 }
+
+export function timestampToDayjs(
+	timestamp: { seconds: number; nanoseconds: number },
+	tz = 'Asia/Manila'
+) {
+	return dayjs.unix(timestamp.seconds).tz(tz);
+}

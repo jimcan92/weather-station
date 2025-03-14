@@ -2,13 +2,9 @@
 #define FIREBASE_H
 
 #include <Arduino.h>
-#include <FirebaseClient.h>
 #include <HTTPClient.h>
-// #include <WiFi.h>
 #include <WiFiClientSecure.h>
-#include <FirebaseJson.h>
 #include <ArduinoJson.h>
-#include <WiFiClientSecure.h>
 #include <DHT.h>
 
 #include "timestamp/timestamp.h"
