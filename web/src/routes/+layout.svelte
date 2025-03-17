@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
+	import icon from '$lib/images/icon.png';
 	import { init } from '$lib/services/firebase/config';
 	import { weatherData } from '$lib/states/weater-data.svelte';
 	import {
@@ -30,7 +31,7 @@
 				return 'Extreme Readings';
 			default:
 			case '/':
-				return 'ESP32 Weather Data';
+				return 'Dashboard';
 		}
 	});
 
@@ -109,9 +110,13 @@
 	<div class="drawer-side z-10">
 		<label for="drawer" aria-label="close sidebar" class="drawer-overlay"></label>
 		<div class="bg-base-300 border-base-content/20 h-svh w-64 border-r">
-			<div class="flex h-48 bg-blue-900 p-4 pb-0">
-				<div class="rounded-box flex items-center justify-center">
-					<h6 class="text-center text-2xl font-semibold">ESP32 Weather Station</h6>
+			<div class="flex h-48 bg-blue-500 p-4 pb-0">
+				<div class="rounded-box flex flex-col items-center justify-center leading-tight">
+					<img src={icon} alt="SmartSkies Logo" class="h-12 w-12" />
+					<h6 class="text-center text-2xl font-semibold">SmartSkies</h6>
+					<p class="text-base-content/60 text-center text-xs">
+						A Sustainable IoT Weather Station for Community-Based Climate
+					</p>
 				</div>
 			</div>
 			<ul class="menu h-[calc(100%-12rem)] w-full flex-nowrap overflow-auto p-2">

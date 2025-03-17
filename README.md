@@ -1,6 +1,6 @@
-# ESP32-Based Weather Station
+# SmartSkies: A Sustainable IoT Weather Station for Community-Based Climate
 
-This project is an ESP32-based weather station that measures and logs temperature, humidity, pressure, and rainfall data. The collected data is sent to Google Sheets using Google Apps Script.
+This project is an ESP32-based weather station that measures and logs temperature, humidity, pressure, and rainfall data. The collected data is sent to Google Sheets using Google Apps Script. Additionally, a web feature using SvelteKit, Firebase, and DaisyUI is hosted for free at [espweather.vercel.app](https://espweather.vercel.app).
 
 ## Features
 
@@ -11,6 +11,7 @@ This project is an ESP32-based weather station that measures and logs temperatur
 - 🌪 **Pressure Sensor**: Reads atmospheric pressure.
 - 🔋 **Solar-Powered**: Uses a CN3065 mini solar charger with a 18650 battery and CE8301 boost converter.
 - 📊 **Data Logging**: Stores data in Google Sheets.
+- 🖥 **Web Dashboard**: Monitor weather data in real time at [espweather.vercel.app](https://espweather.vercel.app).
 - 🖨 **3D-Printed Enclosures**: Custom enclosures for the solar power system and sensor housing.
 
 ## Hardware Requirements
@@ -35,6 +36,8 @@ This project is an ESP32-based weather station that measures and logs temperatur
   - `Adafruit BMP280 Library` by Adafruit
   - `HTTPClient.h`
 - Google Apps Script (for Google Sheets integration)
+- Firestore (for cloud configuration storage)
+- SvelteKit, Firebase, and DaisyUI (for the web dashboard)
 
 ## Setup Instructions
 
@@ -74,6 +77,8 @@ The project includes 3D-printed enclosures for the solar power system and sensor
 
 - The ESP32 collects data at regular intervals (e.g., every minute) and sends it to Google Sheets.
 - Data is saved in daily sheets (e.g., `Feb-02`, `Feb-03`, etc.).
+- Weather data is accessible online at [espweather.vercel.app](https://espweather.vercel.app).
+- Firestore stores configuration settings, which the ESP32 can fetch and apply dynamically.
 
 ## Troubleshooting
 
@@ -87,6 +92,7 @@ The project includes 3D-printed enclosures for the solar power system and sensor
 - 🌎 Web dashboard for better visualization
 - 🔄 Deep sleep mode for power efficiency
 - 📈 AppSheet integration for data visualization
+- 🛠 Cloud-based sensor calibration via Firestore
 
 ## License
 

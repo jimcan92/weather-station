@@ -28,6 +28,7 @@
 // Rain gauge settings
 #define RAIN_PIN 23       // Rain gauge input pin
 #define MM_PER_TIP 0.2794 // mm of rain per tip
+#define MM_PER_TIP_OFFSET 0.21
 
 // DHT sensor settings
 #define DHT_PIN 4      // DHT sensor input pin
@@ -38,7 +39,7 @@
 
 #define FIREBASE_SEND_INTERVAL 1 // x mins
 
-RainGauge rainGauge(RAIN_PIN, MM_PER_TIP);
+RainGauge rainGauge(RAIN_PIN, MM_PER_TIP + MM_PER_TIP_OFFSET);
 LCD lcd(LCD_ADDR, LCD_COLS, LCD_ROWS);
 FirebaseFirestore db;
 Timestamp timestamp;
@@ -94,6 +95,5 @@ void loop()
   rainGauge.handleTip();
   lcd.display();
   gsheet.send();
-
   db.send();
 }

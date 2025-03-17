@@ -70,7 +70,7 @@
 	color: string;
 })}
 	<div class="flex flex-col items-center">
-		{#if value != undefined}
+		{#if value !== undefined}
 			<p class="text-center text-2xl font-bold {color}">{value} {unit}</p>
 			<p class="text-base-content/50 text-xs italic">
 				{dayjs.unix(timestamp.seconds).format('ddd MMM DD, YYYY')}
@@ -135,7 +135,7 @@
 				color: 'text-purple-300'
 			})}
 		{/if}
-		{#if weatherData.extremeRecordedData?.highestPressureData != undefined}
+		{#if weatherData.extremeRecordedData?.highestPressureData !== undefined}
 			{@render extremeReading({
 				label: 'Highest Pressure',
 				timestamp: weatherData.extremeRecordedData.highestPressureData.timestamp,
@@ -156,7 +156,7 @@
 				color: 'text-blue-300'
 			})}
 		{/if}
-		{#if weatherData.extremeRecordedData?.highestRainData != undefined}
+		{#if weatherData.extremeRecordedData?.highestRainData !== undefined}
 			{@render extremeReading({
 				label: 'Highest Rain',
 				timestamp: weatherData.extremeRecordedData.highestRainData.timestamp,
