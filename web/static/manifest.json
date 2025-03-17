@@ -1,7 +1,7 @@
 {
-	"name": "ESP32 Weather Station",
-	"short_name": "ESPWeather",
-	"description": "A weather station built with an ESP32 and Tipping Bucker Rain Gauge, DHT22, and BME280 sensor",
+	"name": "SmartSkies Weather Station",
+	"short_name": "SmartSkies",
+	"description": "A Sustainable IoT Weather Station for Community-Based Climate, built with an ESP32 and Tipping Bucker Rain Gauge, DHT22, and BME280 sensor",
 	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#1d232a",
